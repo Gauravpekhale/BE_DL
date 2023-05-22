@@ -1,13 +1,15 @@
 '''DL- 1.A  Linear regression by using Deep Neural network: Implement Boston housing
 price.prediction problem by Linear regression using Deep Neural network. Use Boston House price'''
 import numpy as np
+import pandas as pd
 import tensorflow as tf
-from sklearn.datasets import load_boston
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-boston = load_boston()    # Load the Boston housing dataset
-data = boston.data
-target = boston.target
+data_url = "http://lib.stat.cmu.edu/datasets/boston"
+raw_df = pd.read_csv(data_url, sep="\s+", skiprows=22, header=None)
+data = np.hstack([raw_df.values[::2, :], raw_df.values[1::2, :2]])
+target = raw_df.values[1::2, 2]
+
 scaler = StandardScaler()  # Normalize the features
 data = scaler.fit_transform(data)
 X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=42)     # Split the data into training and testing sets
